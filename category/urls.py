@@ -4,7 +4,7 @@ from rest_framework.routers import DefaultRouter
 
 # Create a router and register our ViewSets with it.
 router = DefaultRouter()
-router.register('view_set', CategoryViewSet, basename='view_set')
+router.register('all', CategoryViewSet, basename='all')
 
 # The API URLs are now determined automatically by the router.
 urlpatterns = [

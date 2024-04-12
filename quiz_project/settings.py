@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'authentication',
     'category',
     'PlayQuiz',
+    'userProfile',
 ]
 
 MIDDLEWARE = [

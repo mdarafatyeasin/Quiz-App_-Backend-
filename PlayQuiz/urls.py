@@ -10,5 +10,5 @@ router.register('all_questions', QuestionViewSet, basename='questions')
 # The API URLs are now determined automatically by the router.
 urlpatterns = [
     path('', include(router.urls)),
-    path('card_question/<int:id>', CardQuestions)
+    path('card_question/<int:id>', CardQuestions.as_view())
 ]

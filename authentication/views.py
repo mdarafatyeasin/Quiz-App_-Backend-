@@ -8,9 +8,11 @@ from django.utils.encoding import force_bytes
 from django.template.loader import render_to_string
 from django.core.mail import EmailMultiAlternatives
 from django.contrib.auth.models import User
-from django.contrib.auth import authenticate
+from django.contrib.auth import authenticate, logout
 from rest_framework.authtoken.models import Token
 from django.http import JsonResponse
+from django.http import HttpResponse
+from rest_framework import viewsets
 
 
 # Create your views here.
@@ -82,7 +84,7 @@ class userLogin(APIView):
 def checkUser(request, id, token):
     try:
         user = User.objects.get(id=id)
-        print('User found:', user)
+        print('(auth) User found:', user)
 
         # Check if the token is associated with the user
         try:
@@ -96,3 +98,66 @@ def checkUser(request, id, token):
     except User.DoesNotExist:
         print('User not found')
         return JsonResponse({'status': 'error', 'message': 'User not found'}, status=404)
+
+# logout
+def UserLogOut(request,id, token):
+    try:
+        user = User.objects.get(id=id)
+        userToken = Token.objects.get(user=user).key
+        if user:
+            if(token == userToken):
+                currentUser = Token.objects.get(user=user)
+                logout(request)
+                currentUser.delete()
+                print('logout success')
+                return JsonResponse({'status':'success'}, status=200)
+            else:
+                print('token does not exist')
+                return JsonResponse({'status':'token does not exist'})
+    except User.DoesNotExist or Token.DoesNotExist:
+            print('invalid user')
+            return JsonResponse({'status':'invalid user'})
+
+# change user (username, first_name, lase_name, email)
+# filter by id if need => http://127.0.0.1:8000/auth/user/update/11/
+class UserViewSet(viewsets.ModelViewSet):
+    queryset = User.objects.all()
+    serializer_class = serializers.userSerializer
+
+# change password
+# http://127.0.0.1:8000/auth/user/change_password/1
+class ChangePassword(APIView):
+    def post(self, request, id):
+        user = User.objects.get(pk = id)
+
+        old_password = request.data.get('old_password')
+
+        if not user.check_password(old_password):
+            return Response({'error':'Old password is incorrect'})
+        
+        new_password = request.data.get('new_password')
+
+        user.set_password(new_password)
+        user.save()
+        return Response({'success':'Password change success'})
+    
+
+# def test (request, id, token):
+#     try:
+#         user = User.objects.get(id=id)
+#         userToken = Token.objects.get(user=user).key
+#         if user:
+#             if(token == userToken):
+#                 currentUser = Token.objects.get(user=user)
+#                 currentUser.delete()
+#                 print('logout success')
+#                 return JsonResponse({'status':'logout success'})
+#             else:
+#                 print('token does not exist')
+#                 return JsonResponse({'status':'token does not exist'})
+#     except User.DoesNotExist or Token.DoesNotExist:
+#             print('invalid user')
+#             return JsonResponse({'status':'invalid user'})
+    
+
+    

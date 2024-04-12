@@ -19,7 +19,7 @@ class QuizCard(models.Model):
         return (self.title)
 
 class QuestionDetail(models.Model):
-    quizCard = models.ForeignKey(QuizCard, on_delete = models.CASCADE)
+    quizCard = models.ForeignKey(QuizCard,related_name='questions', on_delete = models.CASCADE)
     question_category = models.ForeignKey(questionCategory, on_delete = models.CASCADE, null=True, blank=True)
     question_level = models.CharField(choices = QUESTION_LEVEL, max_length = 20)
     point = models.IntegerField(default=1,)

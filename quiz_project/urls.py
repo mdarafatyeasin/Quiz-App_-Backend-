@@ -22,4 +22,6 @@ urlpatterns = [
     path('auth/', include("authentication.urls")),
     path('category/', include("category.urls")),
     path('quiz/', include("PlayQuiz.urls")),
+    path('profile/', include("userProfile.urls")),
+    path('hook/', include("hooks.urls")),
 ]
