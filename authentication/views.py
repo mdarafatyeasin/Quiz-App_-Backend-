@@ -12,7 +12,7 @@ from django.contrib.auth import authenticate, logout
 from rest_framework.authtoken.models import Token
 from django.http import JsonResponse
 from django.http import HttpResponse
-from rest_framework import viewsets
+
 
 
 # Create your views here.
@@ -118,28 +118,7 @@ def UserLogOut(request,id, token):
             print('invalid user')
             return JsonResponse({'status':'invalid user'})
 
-# change user (username, first_name, lase_name, email)
-# filter by id if need => http://127.0.0.1:8000/auth/user/update/11/
-class UserViewSet(viewsets.ModelViewSet):
-    queryset = User.objects.all()
-    serializer_class = serializers.userSerializer
 
-# change password
-# http://127.0.0.1:8000/auth/user/change_password/1
-class ChangePassword(APIView):
-    def post(self, request, id):
-        user = User.objects.get(pk = id)
-
-        old_password = request.data.get('old_password')
-
-        if not user.check_password(old_password):
-            return Response({'error':'Old password is incorrect'})
-        
-        new_password = request.data.get('new_password')
-
-        user.set_password(new_password)
-        user.save()
-        return Response({'success':'Password change success'})
     
 
 # def test (request, id, token):

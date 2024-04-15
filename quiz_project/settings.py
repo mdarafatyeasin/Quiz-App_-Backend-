@@ -46,6 +46,9 @@ INSTALLED_APPS = [
     'userProfile',
 ]
 
+# APPEND_SLASH = False
+
+
 MIDDLEWARE = [
     "corsheaders.middleware.CorsMiddleware",
 

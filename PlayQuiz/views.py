@@ -6,7 +6,9 @@ from django.http import JsonResponse
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
-# views
+# views 
+# GET POST UPDATE DELETE
+# http://127.0.0.1:8000/quiz/quiz_card/
 class QuizCardViewSet(viewsets.ModelViewSet):
     queryset = QuizCard.objects.all()
     serializer_class = QuizCardSerializer

@@ -3,6 +3,7 @@ from rest_framework.authtoken.models import Token
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from .serializers import UserSerializer  # Import the serializer you created
+from authentication.models import UserInfo
 
 @api_view(['GET'])
 def isAuthenticated(request, id, token):
@@ -19,6 +20,22 @@ def isAuthenticated(request, id, token):
             return Response(serializer.data)  # Return the serialized user data
         except Token.DoesNotExist:
             print('Token is invalid')
+            return Response({'status': 'error', 'message': 'Invalid token'}, status=401)
+
+    except User.DoesNotExist:
+        print('User not found')
+        return Response({'status': 'error', 'message': 'User not found'}, status=404)
+
+@api_view(['GET'])
+def isAdmin(request, id):
+    try:
+        user = User.objects.get(id=id)
+        user_info = UserInfo.objects.get(user=user)
+        print(user_info.role)
+        role = user_info.role
+        if role == 'admin':
+            return Response({'role': role})
+        else:
             return Response({'status': 'error', 'message': 'Invalid token'}, status=401)
 
     except User.DoesNotExist:

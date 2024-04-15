@@ -4,6 +4,6 @@ GENDER = (
 )
 
 ROLE = (
-    ('Admin', 'Admin'),
-    ('Moderator', 'Moderator'),
+    ('admin', 'admin'),
+    ('moderator', 'moderator'),
 )
