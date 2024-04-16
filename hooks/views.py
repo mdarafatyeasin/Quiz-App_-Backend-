@@ -35,8 +35,6 @@ def isAdmin(request, id):
         role = user_info.role
         if role == 'admin':
             return Response({'role': role})
-        else:
-            return Response({'status': 'error', 'message': 'Invalid token'}, status=401)
 
     except User.DoesNotExist:
         print('User not found')
