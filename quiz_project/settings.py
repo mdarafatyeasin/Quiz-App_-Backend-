@@ -44,9 +44,9 @@ INSTALLED_APPS = [
     'category',
     'PlayQuiz',
     'userProfile',
+    'userPass',
 ]
 
-# APPEND_SLASH = False
 
 
 MIDDLEWARE = [

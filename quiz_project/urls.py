@@ -24,4 +24,5 @@ urlpatterns = [
     path('quiz/', include("PlayQuiz.urls")),
     path('profile/', include("userProfile.urls")),
     path('hook/', include("hooks.urls")),
+    path('password/', include("userPass.urls")),
 ]
