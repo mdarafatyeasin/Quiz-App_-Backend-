@@ -34,11 +34,11 @@ class UserRegistration (APIView):
         serializer = self.serializer(data = request.data)
         if serializer.is_valid():
             user = serializer.save()
-            print(user)
+            # print(user)
             token = default_token_generator.make_token(user)
             uid = urlsafe_base64_encode(force_bytes(user.pk))
-            print("uid: ", uid)
-            print("token: ", token)
+            # print("uid: ", uid)
+            # print("token: ", token)
             confirm_link = f"http://127.0.0.1:8000/auth/active/{uid}/{token}"
             send_confirmation_email(user,confirm_link, 'Email confirmation', 'confirm_email.html')
             return Response("Check your mail for confirmation")
@@ -56,7 +56,7 @@ def activate(request, uid64, token):
     if user is not None and default_token_generator.check_token(user, token):
         user.is_active = True
         user.save()
-        return redirect('login')
+        return redirect('http://localhost:5173/login')
     else:
         return redirect('register')
 
@@ -72,11 +72,11 @@ class userLogin(APIView):
 
             if user:
                 token,_ = Token.objects.get_or_create(user=user)
-                print(user)
+                # print(user)
                 return Response({'token': token.key, 'user': {'id': user.id, 'username': user.username}})
                 # return Response({'token':token.key, 'user_id':user.id})
             else:
-                return Response({'error':'Invalid User'})
+                return Response({'error':'Invalid user'})
         else:
             return Response(serializer.error)
 
@@ -84,19 +84,19 @@ class userLogin(APIView):
 def checkUser(request, id, token):
     try:
         user = User.objects.get(id=id)
-        print('(auth) User found:', user)
+        # print('(auth) User found:', user)
 
         # Check if the token is associated with the user
         try:
             token_obj = Token.objects.get(user=user, key=token)
-            print('Token is valid')
+            # print('Token is valid')
             return JsonResponse({'status': 'success', 'user': {'id': user.id, 'username': user.username}})
         except Token.DoesNotExist:
-            print('Token is invalid')
+            # print('Token is invalid')
             return JsonResponse({'status': 'error', 'message': 'Invalid token'}, status=401)
 
     except User.DoesNotExist:
-        print('User not found')
+        # print('User not found')
         return JsonResponse({'status': 'error', 'message': 'User not found'}, status=404)
 
 # logout
@@ -109,13 +109,13 @@ def UserLogOut(request,id, token):
                 currentUser = Token.objects.get(user=user)
                 logout(request)
                 currentUser.delete()
-                print('logout success')
+                # print('logout success')
                 return JsonResponse({'status':'success'}, status=200)
             else:
-                print('token does not exist')
+                # print('token does not exist')
                 return JsonResponse({'status':'token does not exist'})
     except User.DoesNotExist or Token.DoesNotExist:
-            print('invalid user')
+            # print('invalid user')
             return JsonResponse({'status':'invalid user'})
 
 

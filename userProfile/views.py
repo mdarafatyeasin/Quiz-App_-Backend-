@@ -26,7 +26,7 @@ class userProfile(APIView):
             }
             return Response(user_data)
         else:
-            print('not verified')
+            # print('not verified')
             return JsonResponse({'error': 'Unable to fetch user profile'}, status=authentication_response.status_code)
     
 

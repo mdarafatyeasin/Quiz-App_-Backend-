@@ -27,17 +27,17 @@ class ForgotPasswordView(APIView):
             email = serializer.validated_data.get('email')
             try:
                 user = User.objects.get(email=email)
-                print(user)
+                # print(user)
             except User.DoesNotExist:
                 return Response({"error": "User with this email does not exist."}, status=status.HTTP_404_NOT_FOUND)
             
             token = default_token_generator.make_token(user)
             uidb64 = urlsafe_base64_encode(force_bytes(user.pk))
-            reset_link = f"https://fonts.maateen.me/adorsho-lipi/reset-password/{uidb64}/{token}"
+            reset_link = f"http://localhost:5173/login/forgot_password/reset_password/{uidb64}/{token}"
             send_password_reset_email(email, reset_link)
-            return Response({"message": "Please check your mail to reset your password"})
+            return Response({"message": "Please check your mail to reset your password", "token":uidb64+'/'+token})
         else:
-            print(serializer.errors)
+            # print(serializer.errors)
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
@@ -58,18 +58,19 @@ class ResetPasswordView(APIView):
             try:
                 user = User.objects.get(pk=uid)
             except (TypeError, ValueError, OverflowError, User.DoesNotExist) as e:
-                print(e)
+                # print(e)
                 user = None
 
             if user is not None and default_token_generator.check_token(user, token):
-                print(new_password)  # Check if new_password is correct
+                # print(new_password)  # Check if new_password is correct
                 user.set_password(new_password)
                 user.save()
                 return Response({"message": "Password reset successfully."})
             else:
-                print("Invalid token or user.")
+                # print("Invalid token or user.")
                 return Response({"error": "Invalid token or user."}, status=status.HTTP_400_BAD_REQUEST)
 
         return Response({'message':'gotit'})
 
     
+ 

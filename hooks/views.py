@@ -14,16 +14,16 @@ def isAuthenticated(request, id, token):
         # Check if the token is associated with the user
         try:
             token_obj = Token.objects.get(user=user, key=token)
-            print(user)
+            # print(user)
             serializer = UserSerializer(user)  # Serialize the user object
             # print(serializer.data)
             return Response(serializer.data)  # Return the serialized user data
         except Token.DoesNotExist:
-            print('Token is invalid')
+            # print('Token is invalid')
             return Response({'status': 'error', 'message': 'Invalid token'}, status=401)
 
     except User.DoesNotExist:
-        print('User not found')
+        # print('User not found')
         return Response({'status': 'error', 'message': 'User not found'}, status=404)
 
 @api_view(['GET'])
@@ -31,11 +31,11 @@ def isAdmin(request, id):
     try:
         user = User.objects.get(id=id)
         user_info = UserInfo.objects.get(user=user)
-        print(user_info.role)
+        # print(user_info.role)
         role = user_info.role
         if role == 'admin':
             return Response({'role': role})
 
     except User.DoesNotExist:
-        print('User not found')
+        # print('User not found')
         return Response({'status': 'error', 'message': 'User not found'}, status=404)
