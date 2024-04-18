@@ -135,7 +135,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
 CORS_ALLOWED_ORIGINS = [
-    "https://66209d2eac0328ea5f1fb4a4--thunderous-cocada-71487f.netlify.app"
+    "https://66209d2eac0328ea5f1fb4a4--thunderous-cocada-71487f.netlify.app",
+    "https://6620ab055fc4e6ef0a5039e5--thunderous-cocada-71487f.netlify.app/play_quiz",
 ]
 
 STATIC_URL = 'static/'
