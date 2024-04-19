@@ -134,11 +134,11 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
-# CORS_ALLOWED_ORIGINS = [
-#     "https://66209d2eac0328ea5f1fb4a4--thunderous-cocada-71487f.netlify.app"
-# ]
+CORS_ALLOWED_ORIGINS = [
+    "https://66209d2eac0328ea5f1fb4a4--thunderous-cocada-71487f.netlify.app"
+]
 
-CORS_ALLOW_ALL_ORIGINS = True
+# CORS_ALLOW_ALL_ORIGINS = True
 
 STATIC_URL = 'static/'
 
