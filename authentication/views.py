@@ -39,7 +39,7 @@ class UserRegistration (APIView):
             uid = urlsafe_base64_encode(force_bytes(user.pk))
             # print("uid: ", uid)
             # print("token: ", token)
-            confirm_link = f"http://127.0.0.1:8000/auth/active/{uid}/{token}"
+            confirm_link = f"https://quiz-app-backend-ybe6.onrender.com/{uid}/{token}"
             send_confirmation_email(user,confirm_link, 'Email confirmation', 'confirm_email.html')
             return Response("Check your mail for confirmation")
         
@@ -56,7 +56,7 @@ def activate(request, uid64, token):
     if user is not None and default_token_generator.check_token(user, token):
         user.is_active = True
         user.save()
-        return redirect('http://localhost:5173/login')
+        return redirect('https://quiz-app-backend-ybe6.onrender.com/login')
     else:
         return redirect('register')
 
